@@ -15,15 +15,10 @@ import kotlinx.android.synthetic.main.carousel_item.view.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 
 @AndroidEntryPoint
-class ItemDetailsFragment : Fragment() {
+class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
 
     private val item: ItemBoxViewEntity by lazy {
         requireArguments().getParcelable<ItemBoxViewEntity>(EXTRA_ITEM)!!
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_item_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
