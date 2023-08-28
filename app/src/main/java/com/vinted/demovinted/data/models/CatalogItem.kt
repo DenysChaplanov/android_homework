@@ -3,6 +3,7 @@ package com.vinted.demovinted.data.models
 import com.squareup.moshi.Json
 import java.math.BigDecimal
 
+
 data class CatalogItem(
     val id: Int = 0,
     val title: String = "",
