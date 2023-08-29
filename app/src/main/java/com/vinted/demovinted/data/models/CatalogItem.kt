@@ -1,9 +1,11 @@
 package com.vinted.demovinted.data.models
 
-import com.squareup.moshi.Json
 import java.math.BigDecimal
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CatalogItem(
     val id: Int = 0,
     val title: String = "",
@@ -11,7 +13,7 @@ data class CatalogItem(
     private val photo: String = "",
     private val brand: String = "",
     val category: String = ""
-) : Content {
+) : Content, Parcelable {
 
     var searchScore: String? = null
 

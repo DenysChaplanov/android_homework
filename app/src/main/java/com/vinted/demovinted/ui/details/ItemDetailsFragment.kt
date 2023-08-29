@@ -1,28 +1,31 @@
 package com.vinted.demovinted.ui.details
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.vinted.demovinted.R
 import com.vinted.demovinted.data.models.ItemBoxViewEntity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.feed_item.view.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 
-@AndroidEntryPoint
 class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
 
-    private val item: ItemBoxViewEntity by lazy {
-        requireArguments().getParcelable<ItemBoxViewEntity>(EXTRA_ITEM)!!
-    }
+//    private val item: ItemBoxViewEntity by lazy {
+//        arguments?.getParcelable<ItemBoxViewEntity>(currentItem) ?: throw IllegalArgumentException("Item not provided.")
+//    }
+    private val args: ItemDetailsFragmentArgs by navArgs()
+    private val item: ItemBoxViewEntity get() = ItemBoxViewEntity.fromCatalogItem(args.currentItem)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("ItemDetailsFragment", "Item: $item")
         image_carousel.setSliderAdapter(SimpleSliderAdapter(listOf(item.mainPhoto!!.url)), false)
         image_carousel.setIndicatorAnimation(IndicatorAnimationType.SLIDE)
         setItem()
@@ -43,26 +46,25 @@ class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
         inner class SimpleViewHolder(view: View): SliderViewAdapter.ViewHolder(view)
 
         override fun onCreateViewHolder(parent: ViewGroup?): SimpleViewHolder {
-            val view = LayoutInflater.from(parent!!.context).inflate(R.layout.fragment_feed, parent, false)
+            val view = LayoutInflater.from(parent!!.context).inflate(R.layout.feed_item, parent, false)
             return SimpleViewHolder(view)
         }
 
         override fun getCount(): Int = photos.size
 
         override fun onBindViewHolder(viewHolder: SimpleViewHolder?, position: Int) {
+            //if(viewHolder?.itemView?.image == null) return
             val imageView = viewHolder?.itemView?.image!!
             Glide.with(imageView).load(photos[position]).into(imageView)
         }
     }
 
     companion object {
-
+        private const val currentItem = "currentItem"
         fun newInstance(item: ItemBoxViewEntity): ItemDetailsFragment {
             return ItemDetailsFragment().apply {
-                arguments = Bundle().apply { putParcelable(EXTRA_ITEM, item) }
+                arguments = Bundle().apply { putParcelable(currentItem, item) }
             }
         }
-
-        private const val EXTRA_ITEM = "EXTRA_ITEM"
     }
 }

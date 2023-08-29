@@ -26,6 +26,7 @@ class FeedViewModel constructor(): ViewModel() {
                     Log.e("Test", it.toString())
                 }
             )
+
     }
     fun Test() {
 
