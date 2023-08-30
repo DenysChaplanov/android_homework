@@ -12,7 +12,7 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.vinted.demovinted.R
 import com.vinted.demovinted.data.models.ItemBoxViewEntity
-import kotlinx.android.synthetic.main.feed_item.view.*
+import kotlinx.android.synthetic.main.fragment_feed.view.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 
 class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
@@ -46,7 +46,7 @@ class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
         inner class SimpleViewHolder(view: View): SliderViewAdapter.ViewHolder(view)
 
         override fun onCreateViewHolder(parent: ViewGroup?): SimpleViewHolder {
-            val view = LayoutInflater.from(parent!!.context).inflate(R.layout.feed_item, parent, false)
+            val view = LayoutInflater.from(parent!!.context).inflate(R.layout.fragment_feed, parent, false)
             return SimpleViewHolder(view)
         }
 

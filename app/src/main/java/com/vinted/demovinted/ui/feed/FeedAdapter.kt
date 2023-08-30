@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vinted.demovinted.R
 import com.vinted.demovinted.data.models.CatalogItem
-import kotlinx.android.synthetic.main.feed_item.view.*
+import kotlinx.android.synthetic.main.fragment_feed.view.*
 
 class FeedAdapter(val onItemClick :(CatalogItem) -> Unit, diff: DiffUtil.ItemCallback<CatalogItem> = DefaultFeedItemCallBack()): ListAdapter <CatalogItem, FeedViewHolder>(diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         val view =
-        LayoutInflater.from(parent.context).inflate(R.layout.feed_item, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.fragment_feed, parent, false)
         return FeedViewHolder(view, onItemClick)
     }
 
