@@ -16,19 +16,39 @@ class FeedFragment: Fragment(R.layout.fragment_feed) {
     private val feedAdapter by lazy { FeedAdapter(::onItemClick) }
     private val feedViewModel by viewModels<FeedViewModel>()
 
+    private lateinit var endlessScrollListener: EndlessScrollListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        feed.layoutManager = GridLayoutManager(requireContext(), 2)
-        feed.adapter = feedAdapter
-        feedViewModel.Test()
-        feedViewModel.feedData.observe(viewLifecycleOwner){
+        setupRecyclerView()
+        setupEndlessScrollListener()
+
+        feedViewModel.loadInitialItems()
+
+        feedViewModel.feedData.observe(viewLifecycleOwner) {
             feedAdapter.submitList(it)
         }
     }
-    fun onItemClick(Item: CatalogItem){
-        Log.d("Test", Item.toString())
-        val action = FeedFragmentDirections.actionFeedFragmentToItemDetailsFragment(currentItem = Item)
+
+    private fun setupRecyclerView() {
+        feed.layoutManager = GridLayoutManager(requireContext(), 2)
+        feed.adapter = feedAdapter
+    }
+
+    private fun setupEndlessScrollListener() {
+        endlessScrollListener = EndlessScrollListener {
+            feedViewModel.loadMoreItems()
+        }
+        feed.addOnScrollListener(endlessScrollListener)
+    }
+
+    fun onItemClick(item: CatalogItem) {
+        Log.d("Test", item.toString())
+        val action = FeedFragmentDirections.actionFeedFragmentToItemDetailsFragment(currentItem = item)
         findNavController().navigate(action)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        feed.removeOnScrollListener(endlessScrollListener)
+    }
 }

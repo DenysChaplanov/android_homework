@@ -17,9 +17,7 @@ import kotlinx.android.synthetic.main.fragment_item_details.*
 
 class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
 
-//    private val item: ItemBoxViewEntity by lazy {
-//        arguments?.getParcelable<ItemBoxViewEntity>(currentItem) ?: throw IllegalArgumentException("Item not provided.")
-//    }
+
     private val args: ItemDetailsFragmentArgs by navArgs()
     private val item: ItemBoxViewEntity get() = ItemBoxViewEntity.fromCatalogItem(args.currentItem)
 
