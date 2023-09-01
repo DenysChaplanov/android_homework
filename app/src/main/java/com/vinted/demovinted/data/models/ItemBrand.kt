@@ -1,7 +1,10 @@
 package com.vinted.demovinted.data.models
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ItemBrand(
     val id: String = "",
     @Json(name = "is_custom_brand") val isCustomBrand: Boolean = false,
@@ -9,7 +12,7 @@ data class ItemBrand(
     @Json(name = "item_count")val itemCount: Int = 0,
     @Json(name = "pretty_image_count")val prettyItemCount: String = "",
     val title: String = ""
-) {
+) : Parcelable {
 
     override fun toString() = title
 

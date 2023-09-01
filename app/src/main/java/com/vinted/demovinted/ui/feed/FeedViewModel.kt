@@ -9,7 +9,6 @@ import com.vinted.demovinted.data.repository.FeedRepository
 import com.vinted.demovinted.di.DataModule
 import com.vinted.demovinted.di.NetworkingModule
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
@@ -74,7 +73,7 @@ class FeedViewModel : ViewModel() {
             .map { it.trim() }
             .distinctUntilChanged()
             .filter { it.isNotBlank() }
-            .debounce(600, TimeUnit.MILLISECONDS)
+            .debounce(500, TimeUnit.MILLISECONDS)
             .switchMapSingle {
                 currentPage = 0
                 Log.d("NewTextText", it)

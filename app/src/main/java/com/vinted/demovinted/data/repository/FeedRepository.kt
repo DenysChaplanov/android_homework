@@ -11,11 +11,4 @@ class FeedRepository constructor(private val feedApi: Api) {
             .subscribeOn(Schedulers.io())
             .map { it.items }
     }
-/*    fun getItemsByBrand(brand: String): Single<List<CatalogItem>> {
-        val params = mapOf("brand" to brand)
-        return feedApi.getItemsByBrand(params)
-            .subscribeOn(Schedulers.io())
-            .map { it.items }
-    }*/
-
 }

@@ -13,7 +13,7 @@ data class CatalogItem(
     private val photo: String = "",
     private val brand: String = "",
     val category: String = ""
-) : Content, Parcelable {
+) : Parcelable {
 
     var searchScore: String? = null
 

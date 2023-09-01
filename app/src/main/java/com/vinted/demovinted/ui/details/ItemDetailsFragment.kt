@@ -51,7 +51,6 @@ class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
         override fun getCount(): Int = photos.size
 
         override fun onBindViewHolder(viewHolder: SimpleViewHolder?, position: Int) {
-            //if(viewHolder?.itemView?.image == null) return
             val imageView = viewHolder?.itemView?.image!!
             Glide.with(imageView).load(photos[position]).into(imageView)
         }
