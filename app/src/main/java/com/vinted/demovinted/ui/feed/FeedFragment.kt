@@ -2,7 +2,10 @@ package com.vinted.demovinted.ui.feed
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,16 +22,14 @@ class FeedFragment: Fragment(R.layout.fragment_feed) {
     private lateinit var endlessScrollListener: EndlessScrollListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         setupRecyclerView()
         setupEndlessScrollListener()
-
-        feedViewModel.loadInitialItems()
 
         feedViewModel.feedData.observe(viewLifecycleOwner) {
             feedAdapter.submitList(it)
         }
     }
-
     private fun setupRecyclerView() {
         feed.layoutManager = GridLayoutManager(requireContext(), 2)
         feed.adapter = feedAdapter
@@ -47,8 +48,24 @@ class FeedFragment: Fragment(R.layout.fragment_feed) {
         findNavController().navigate(action)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        feed.removeOnScrollListener(endlessScrollListener)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+        val searchItem = menu.findItem(R.id.menu_search)
+        val searchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                feedViewModel.onSearch(newText.orEmpty())
+                Log.d("NewTextSearch", newText.toString())
+                return true
+            }
+        })
     }
+
 }

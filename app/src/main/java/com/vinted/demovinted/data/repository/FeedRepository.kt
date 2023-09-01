@@ -6,9 +6,16 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class FeedRepository constructor(private val feedApi: Api) {
-    fun getAllItems(page: Int): Single<List<CatalogItem>> {
-        return feedApi.getItemsFeed(mapOf("page" to page.toString()))
+    fun getAllItems(page: Int, search: String): Single<List<CatalogItem>> {
+        return feedApi.getItemsFeed(mapOf("page" to page.toString(), "search_text" to search))
             .subscribeOn(Schedulers.io())
             .map { it.items }
     }
+/*    fun getItemsByBrand(brand: String): Single<List<CatalogItem>> {
+        val params = mapOf("brand" to brand)
+        return feedApi.getItemsByBrand(params)
+            .subscribeOn(Schedulers.io())
+            .map { it.items }
+    }*/
+
 }

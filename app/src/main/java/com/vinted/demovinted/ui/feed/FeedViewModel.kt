@@ -9,6 +9,9 @@ import com.vinted.demovinted.data.repository.FeedRepository
 import com.vinted.demovinted.di.DataModule
 import com.vinted.demovinted.di.NetworkingModule
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 class FeedViewModel : ViewModel() {
     private val feedRepository: FeedRepository
@@ -16,21 +19,21 @@ class FeedViewModel : ViewModel() {
     val feedData: LiveData<List<CatalogItem>> = feedLiveData
 
     private val loadingState = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = loadingState
-
     private var currentPage = 0
-
     private val disposable = CompositeDisposable()
-
+    private val querySubject = BehaviorSubject.createDefault("")
     init {
         val moshi = DataModule().providesMoshi()
         feedRepository = FeedRepository(NetworkingModule().providesApi(moshi))
+        loadInitialItems()
+        Log.d("loadMoreItems", "Test123")
+        onSearchItem()
     }
 
     fun loadInitialItems() {
         loadingState.value = true
         currentPage = 0
-        disposable.add(feedRepository.getAllItems(currentPage)
+        disposable.add(feedRepository.getAllItems(currentPage, "")
             .subscribe(
                 {
                     feedLiveData.postValue(it)
@@ -45,10 +48,9 @@ class FeedViewModel : ViewModel() {
 
     fun loadMoreItems() {
         if (loadingState.value == true) return
-
         loadingState.value = true
         currentPage++
-        disposable.add(feedRepository.getAllItems(currentPage)
+        disposable.add(feedRepository.getAllItems(currentPage, querySubject.value.orEmpty())
             .subscribe(
                 { items ->
                     val currentItems = feedLiveData.value.orEmpty().toMutableList()
@@ -61,5 +63,38 @@ class FeedViewModel : ViewModel() {
                     loadingState.postValue(false)
                 }
             ))
+    }
+
+    fun onSearch(search: String){
+        querySubject.onNext(search)
+    }
+
+    private fun onSearchItem() {
+        querySubject
+            .map { it.trim() }
+            .distinctUntilChanged()
+            .filter { it.isNotBlank() }
+            .debounce(600, TimeUnit.MILLISECONDS)
+            .switchMapSingle {
+                currentPage = 0
+                Log.d("NewTextText", it)
+                feedRepository.getAllItems(currentPage, it)
+            }
+            .subscribe(
+                {
+                    feedLiveData.postValue(it)
+                    loadingState.postValue(false)
+                },
+                {
+                    Log.e("Test", it.toString())
+                    loadingState.postValue(false)
+                }
+            )
+            .also { disposable.add(it) }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.dispose()
     }
 }
