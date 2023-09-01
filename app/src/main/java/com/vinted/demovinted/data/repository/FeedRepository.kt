@@ -1,7 +1,9 @@
 package com.vinted.demovinted.data.repository
 
 import com.vinted.demovinted.data.models.CatalogItem
+import com.vinted.demovinted.data.models.ItemSeenEvent
 import com.vinted.demovinted.data.network.api.Api
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
@@ -11,4 +13,9 @@ class FeedRepository constructor(private val feedApi: Api) {
             .subscribeOn(Schedulers.io())
             .map { it.items }
     }
+    fun sendEvent(events: List<ItemSeenEvent>): Completable {
+        return feedApi.sendEvent(events)
+            .subscribeOn(Schedulers.io())
+    }
+
 }

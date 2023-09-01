@@ -12,7 +12,11 @@ import com.vinted.demovinted.R
 import com.vinted.demovinted.data.models.CatalogItem
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 
-class FeedAdapter(val onItemClick :(CatalogItem) -> Unit, diff: DiffUtil.ItemCallback<CatalogItem> = DefaultFeedItemCallBack()): ListAdapter <CatalogItem, FeedViewHolder>(diff) {
+class FeedAdapter(
+    private val onItemClick: (CatalogItem) -> Unit,
+    private val onItemViewed: (CatalogItem) -> Unit,
+    diff: DiffUtil.ItemCallback<CatalogItem> = DefaultFeedItemCallBack()
+) : ListAdapter<CatalogItem, FeedViewHolder>(diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         val view =
@@ -21,7 +25,11 @@ class FeedAdapter(val onItemClick :(CatalogItem) -> Unit, diff: DiffUtil.ItemCal
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-        getItem(position)?.let { holder.Bind(it) }
+        getItem(position)?.let { item ->
+            holder.Bind(item)
+            onItemViewed(item)
+        }
+
     }
 }
 
