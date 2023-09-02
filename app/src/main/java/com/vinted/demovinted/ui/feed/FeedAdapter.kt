@@ -1,6 +1,5 @@
 package com.vinted.demovinted.ui.feed
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,11 @@ import com.vinted.demovinted.R
 import com.vinted.demovinted.data.models.CatalogItem
 import kotlinx.android.synthetic.main.fragment_feed.view.*
 
-class FeedAdapter(val onItemClick :(CatalogItem) -> Unit, diff: DiffUtil.ItemCallback<CatalogItem> = DefaultFeedItemCallBack()): ListAdapter <CatalogItem, FeedViewHolder>(diff) {
+class FeedAdapter(
+    private val onItemClick: (CatalogItem) -> Unit,
+    private val onItemViewed: (CatalogItem) -> Unit,
+    diff: DiffUtil.ItemCallback<CatalogItem> = DefaultFeedItemCallBack()
+) : ListAdapter<CatalogItem, FeedViewHolder>(diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         val view =
@@ -21,7 +24,11 @@ class FeedAdapter(val onItemClick :(CatalogItem) -> Unit, diff: DiffUtil.ItemCal
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
-        getItem(position)?.let { holder.Bind(it) }
+        getItem(position)?.let { item ->
+            holder.Bind(item)
+            onItemViewed(item)
+        }
+
     }
 }
 
@@ -31,7 +38,6 @@ class FeedViewHolder(view: View, val onItemClick :(CatalogItem) -> Unit): Recycl
         Glide.with(itemView.context).load(Item.mainPhoto.url).into(itemView.image)
         itemView.price.text = "${Item.price?.setScale(2)} €"
         itemView.setOnClickListener{
-            Log.d("Test", "Bind: ")
             onItemClick(Item)
         }
     }

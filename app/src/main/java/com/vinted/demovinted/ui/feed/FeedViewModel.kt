@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vinted.demovinted.data.models.CatalogItem
+import com.vinted.demovinted.data.models.ItemSeenEvent
 import com.vinted.demovinted.data.repository.FeedRepository
 import com.vinted.demovinted.di.DataModule
 import com.vinted.demovinted.di.NetworkingModule
@@ -25,7 +26,6 @@ class FeedViewModel : ViewModel() {
         val moshi = DataModule().providesMoshi()
         feedRepository = FeedRepository(NetworkingModule().providesApi(moshi))
         loadInitialItems()
-        Log.d("loadMoreItems", "Test123")
         onSearchItem()
     }
 
@@ -95,5 +95,17 @@ class FeedViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         disposable.dispose()
+    }
+    fun sendItemViewEvent(item: CatalogItem) {
+        val itemViewEvent = ItemSeenEvent(System.currentTimeMillis(), item.id)
+        disposable.add(feedRepository.sendEvent(listOf(itemViewEvent))
+            .subscribe(
+                {
+                    Log.d("sendItem", "Item ${item.id} view event sent successfully")
+                },
+                {
+                    Log.e("FeedViewModel", "Failed to send item view event", it)
+                }
+            ))
     }
 }

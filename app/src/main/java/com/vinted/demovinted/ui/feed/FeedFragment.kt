@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_feed.*
 
 class FeedFragment: Fragment(R.layout.fragment_feed) {
 
-    private val feedAdapter by lazy { FeedAdapter(::onItemClick) }
+    private val feedAdapter by lazy { FeedAdapter(::onItemClick, ::onItemViewed) }
     private val feedViewModel by viewModels<FeedViewModel>()
 
     private lateinit var endlessScrollListener: EndlessScrollListener
@@ -42,10 +42,13 @@ class FeedFragment: Fragment(R.layout.fragment_feed) {
         feed.addOnScrollListener(endlessScrollListener)
     }
 
-    fun onItemClick(item: CatalogItem) {
-        Log.d("Test", item.toString())
+    private fun onItemClick(item: CatalogItem) {
+        Log.d("onItemClickTest", item.toString())
         val action = FeedFragmentDirections.actionFeedFragmentToItemDetailsFragment(currentItem = item)
         findNavController().navigate(action)
+    }
+    private fun onItemViewed(item: CatalogItem) {
+        feedViewModel.sendItemViewEvent(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
