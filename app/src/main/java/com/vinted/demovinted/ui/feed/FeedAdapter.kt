@@ -29,6 +29,7 @@ class FeedViewHolder(view: View, val onItemClick :(CatalogItem) -> Unit): Recycl
     fun Bind(Item: CatalogItem){
         itemView.brand.text = Item.itemBrand.toString()
         Glide.with(itemView.context).load(Item.mainPhoto.url).into(itemView.image)
+        itemView.price.text = "${Item.price?.setScale(2)} €"
         itemView.setOnClickListener{
             Log.d("Test", "Bind: ")
             onItemClick(Item)
