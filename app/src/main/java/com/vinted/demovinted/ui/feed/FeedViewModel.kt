@@ -101,7 +101,7 @@ class FeedViewModel : ViewModel() {
         disposable.add(feedRepository.sendEvent(listOf(itemViewEvent))
             .subscribe(
                 {
-                    Log.d("FeedViewModel", "Item ${item.id} view event sent successfully")
+                    Log.d("sendItem", "Item ${item.id} view event sent successfully")
                 },
                 {
                     Log.e("FeedViewModel", "Failed to send item view event", it)

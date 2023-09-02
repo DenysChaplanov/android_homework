@@ -43,13 +43,12 @@ class FeedFragment: Fragment(R.layout.fragment_feed) {
     }
 
     private fun onItemClick(item: CatalogItem) {
-        Log.d("Test", item.toString())
+        Log.d("onItemClickTest", item.toString())
         val action = FeedFragmentDirections.actionFeedFragmentToItemDetailsFragment(currentItem = item)
         findNavController().navigate(action)
     }
     private fun onItemViewed(item: CatalogItem) {
         feedViewModel.sendItemViewEvent(item)
-        Log.d("PostTest", item.toString())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
