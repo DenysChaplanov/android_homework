@@ -1,3 +1,6 @@
+// a way to interact with a remote server
+// to receive data about a item catalog
+// and send browsing events using Retrofit
 package com.vinted.demovinted.data.network.api
 
 import com.vinted.demovinted.data.models.ItemSeenEvent

@@ -1,3 +1,5 @@
+//binds data from CatalogItem to list items
+//handles clicks on list items
 package com.vinted.demovinted.ui.feed
 
 import android.view.LayoutInflater
@@ -19,7 +21,7 @@ class FeedAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
         val view =
-        LayoutInflater.from(parent.context).inflate(R.layout.fragment_feed, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.fragment_feed, parent, false)
         return FeedViewHolder(view, onItemClick)
     }
 
@@ -33,6 +35,7 @@ class FeedAdapter(
 }
 
 class FeedViewHolder(view: View, val onItemClick :(CatalogItem) -> Unit): RecyclerView.ViewHolder(view){
+    //binds data from CatalogItem with View elements
     fun Bind(Item: CatalogItem){
         itemView.brand.text = Item.itemBrand.toString()
         Glide.with(itemView.context).load(Item.mainPhoto.url).into(itemView.image)

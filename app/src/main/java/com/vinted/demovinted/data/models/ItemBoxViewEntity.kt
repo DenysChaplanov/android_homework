@@ -35,6 +35,7 @@ data class ItemBoxViewEntity(
 
     companion object {
 
+        //to transform data from FeedFragment into ItemDetailsFragment
         fun fromCatalogItem(catalogItem: CatalogItem): ItemBoxViewEntity {
             return ItemBoxViewEntity(
                 owner = false,

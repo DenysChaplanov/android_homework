@@ -5,6 +5,7 @@ import java.math.BigDecimal
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+//to pass between fragments
 @Parcelize
 data class CatalogItem(
     val id: Int = 0,

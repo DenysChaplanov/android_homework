@@ -1,3 +1,6 @@
+## Completed by Denys Chaplanov 
+For testing and checking the final version of the project, please download/clone the latest branch (feed/track).
+
 ## Welcome to Vinted!
 
 We, engineers at Vinted, are striving to provide the best solutions for business-side problems which scale, last and require minimal maintenance. Our code is clean, well-tested and flexible and we are not afraid to touch legacy code, re-evaluate it and rework it if necessary. We hope that our new colleagues appreciate the same values and stick to best-practices.

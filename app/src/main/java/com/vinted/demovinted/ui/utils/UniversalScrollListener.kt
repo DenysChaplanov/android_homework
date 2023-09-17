@@ -1,7 +1,9 @@
+//a common mechanism for handling scroll events in list
 package com.vinted.demovinted.ui.feed
 
 import android.view.ViewGroup
 import android.widget.AbsListView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -19,7 +21,7 @@ abstract class UniversalScrollListener : RecyclerView.OnScrollListener(), AbsLis
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
-        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+        val layoutManager = recyclerView.layoutManager as GridLayoutManager //forget to chance in final version
 
         visibleItemCount = recyclerView.childCount
         totalItemCount = layoutManager.itemCount

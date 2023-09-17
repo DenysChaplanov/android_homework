@@ -1,3 +1,4 @@
+//configuration for uploading images
 package com.vinted.demovinted.data.helpers
 
 import android.content.Context

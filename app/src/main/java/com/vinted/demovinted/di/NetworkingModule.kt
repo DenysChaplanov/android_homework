@@ -1,3 +1,6 @@
+// a customized Retrofit that can be used to make HTTP requests
+// to the server and process JSON data using the Moshi library
+// RxJava2 for working with reactive threads
 package com.vinted.demovinted.di
 
 import com.squareup.moshi.Moshi
@@ -11,6 +14,7 @@ class NetworkingModule {
     fun providesApi(
         moshi: Moshi
     ): Api {
+        //OkHttp built in retrofit
         return Retrofit.Builder()
             .baseUrl("http://mobile-homework-api.vinted.net/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

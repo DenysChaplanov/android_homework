@@ -1,3 +1,4 @@
+//displays details of a specific product (onClicked)
 package com.vinted.demovinted.ui.details
 
 import android.os.Bundle
@@ -18,8 +19,8 @@ import kotlinx.android.synthetic.main.fragment_item_details.*
 class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
 
 
-    private val args: ItemDetailsFragmentArgs by navArgs()
-    private val item: ItemBoxViewEntity get() = ItemBoxViewEntity.fromCatalogItem(args.currentItem)
+    private val args: ItemDetailsFragmentArgs by navArgs() //to receive arguments from FeedFragment
+    private val item: ItemBoxViewEntity get() = ItemBoxViewEntity.fromCatalogItem(args.currentItem) //converting the object
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,13 +56,15 @@ class ItemDetailsFragment : Fragment(R.layout.fragment_item_details) {
             Glide.with(imageView).load(photos[position]).into(imageView)
         }
     }
+//    * Forget to delete *
+//    * I used SafeArgs because I have Parcelable-objects in this case *
 
-    companion object {
-        private const val currentItem = "currentItem"
-        fun newInstance(item: ItemBoxViewEntity): ItemDetailsFragment {
-            return ItemDetailsFragment().apply {
-                arguments = Bundle().apply { putParcelable(currentItem, item) }
-            }
-        }
-    }
+//    companion object {
+//        private const val currentItem = "currentItem"
+//        fun newInstance(item: ItemBoxViewEntity): ItemDetailsFragment {
+//            return ItemDetailsFragment().apply {
+//                arguments = Bundle().apply { putParcelable(currentItem, item) }
+//            }
+//        }
+//    }
 }

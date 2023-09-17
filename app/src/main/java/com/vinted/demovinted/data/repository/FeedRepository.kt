@@ -1,3 +1,6 @@
+// abstraction for working with data related to the product catalog
+// 1) receiving a list of items
+// 2) sending events
 package com.vinted.demovinted.data.repository
 
 import com.vinted.demovinted.data.models.CatalogItem
@@ -17,5 +20,6 @@ class FeedRepository constructor(private val feedApi: Api) {
         return feedApi.sendEvent(events)
             .subscribeOn(Schedulers.io())
     }
-
+    //Both methods use Schedulers.io()
+    // to perform network operations on a background thread
 }

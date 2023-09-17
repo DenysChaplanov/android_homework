@@ -1,3 +1,5 @@
+// data conversion with Moshi
+// simplifies working with data in JSON format
 package com.vinted.demovinted.di
 
 import com.squareup.moshi.Moshi
